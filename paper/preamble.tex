@@ -1,105 +1,87 @@
-%% Based in large part on a preamble made by Yuriy Brun
+%%%%%%%%%% PACKAGES %%%%%%%%%%
 
-\documentclass[letterpaper,twocolumn,10pt]{article}
-\usepackage{usenix2019_v3}
+% Document Format
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage[top=1.0in,bottom=1.5in,left=1.0in,right=1.0in]{geometry}
+\usepackage{fancyhdr}
+\usepackage[onehalfspacing]{setspace}
+\usepackage[title,titletoc]{appendix}
+\usepackage{nameref}
 
-\ifnum\draft=1
-  % include the revision number in a footer
-  \usepackage{draftfooter} \newcommand{\todo}[1]{{\color{red}\bfseries [[#1]]}} \else
-  \newcommand{\todo}[1]{\relax}
-\fi
+% Bibliography
+\usepackage{etoolbox}
+\apptocmd{\thebibliography}{\raggedright}{}{}
 
-
-\nonfrenchspacing
-
-%\pdfpagewidth 8.5in
-%\pdfpageheight 11in
-
-\makeatletter
-\let\sigproof\proof
-\let\sigendproof\endproof
-\let\proof\@undefined
-\let\endproof\@undefined
-\makeatother
-
-\usepackage[english]{babel}
-\usepackage{blindtext}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{subfigure}
-\usepackage{balance}
+% Figures
+\usepackage{float}
 \usepackage{graphicx}
-\usepackage{xspace}
-\usepackage{pslatex}
-\usepackage{pifont}
-\usepackage{multirow}
-\usepackage{array}
+\usepackage{subcaption}
+\usepackage{rotating}
+\usepackage[export]{adjustbox}
+
+% Tables
 \usepackage{booktabs}
-%\usepackage[nospace,adjust]{cite}
-\usepackage{url}
-\usepackage{amsthm}
-\usepackage{cancel}
-\usepackage{color,colortbl}
-\usepackage[font=small,font={small,sf},labelfont=bf]{caption}
-\usepackage{microtype}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.2}
+
+% Code / Algorithms
 \usepackage{listings}
-\usepackage{xfrac}
+\usepackage[vlined,ruled]{algorithm2e}
 
-%% Do not split footnotes across pages
-\interfootnotelinepenalty=10000
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+% Custom tilde/approximately sign
+\newcommand{\aprx}[1]{{\footnotesize$\sim$}{#1}}
 
-% At least 80% of every float page must be taken up by
-% floats; there will be no page with more than 20% white space.
-\def\topfraction{.9}
-\def\dbltopfraction{\topfraction}
-\def\floatpagefraction{\topfraction}     % default .5
-\def\dblfloatpagefraction{\topfraction}  % default .5
-\def\textfraction{.1}
 
-\setcounter{topnumber}{4}
-\setcounter{bottomnumber}{4}
-\setcounter{totalnumber}{6}
+%%%%%%%%%% COMMANDS %%%%%%%%%%
 
-%% Bring items closer together in list environments
-%% This doesn't work with an optional argument to the list environment.
-% Prevent infinite loops
-\let\Itemize =\itemize    
-\let\Enumerate =\enumerate
-\let\Description =\description
-% Zero the vertical spacing parameters
-\def\Nospacing{\itemsep=0pt\topsep=0pt\partopsep=0pt\parskip=0pt\parsep=0pt}
-% Redefine the environments in terms of the original values
-\renewenvironment{itemize}{\Itemize\Nospacing}{\endlist}
-\renewenvironment{enumerate}{\Enumerate\Nospacing}{\endlist}
-\renewenvironment{description}{\Description\Nospacing}{\endlist}
+% Annotation
+\newcommand{\todo}[1]{{\color{red}\bfseries [[#1]]}}
+\newcommand{\jtg}[1]{{\color{orange}\textbf{JTG:} \textit{#1}}}
 
-\newcommand{\urlwofont}[1]{\urlstyle{same}\url{#1}}
-
+% Text macros
+\newcommand{\para }[1]{\medskip \noindent  {\bf #1}}
 \newcommand{\1}{{\em (i)}}
 \newcommand{\2}{{\em (ii)}}
 \newcommand{\3}{{\em (iii)}}
 \newcommand{\4}{{\em (iv)}}
 \newcommand{\5}{{\em (v)}}
 
-\newcommand{\para }[1]{\medskip \noindent  {\bf #1}}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 
-\def\Nospacing{\itemsep=0pt\topsep=0pt\partopsep=0pt\parskip=0pt\parsep=0pt}
+% JSON listings
+\usepackage{xcolor}
 
-\usepackage{hyperref}
-\hypersetup{%
-  pdftitle = {\pdftitle},
-  pdfkeywords = {},
-  pdfauthor = {\pdfauthors},
-  bookmarksnumbered,
-  bookmarksopen=false,
-  urlcolor=black,
-  linkcolor=black,
-  citecolor=black,
-  colorlinks=true,
-  pdfstartview={FitH},
+\definecolor{eclipseStrings}{RGB}{42,0.0,255}
+\definecolor{eclipseKeywords}{RGB}{127,0,85}
+\colorlet{numb}{magenta!60!black}
+
+\lstdefinelanguage{json}{
+    basicstyle=\small\ttfamily,
+    commentstyle=\color{eclipseStrings}, % style of comment
+    stringstyle=\color{eclipseKeywords}, % style of strings
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    string=[s]{"}{"},
+    comment=[l]{:\ "},
+    morecomment=[l]{:"},
+    literate=
+        *{0}{{{\color{numb}0}}}{1}
+         {1}{{{\color{numb}1}}}{1}
+         {2}{{{\color{numb}2}}}{1}
+         {3}{{{\color{numb}3}}}{1}
+         {4}{{{\color{numb}4}}}{1}
+         {5}{{{\color{numb}5}}}{1}
+         {6}{{{\color{numb}6}}}{1}
+         {7}{{{\color{numb}7}}}{1}
+         {8}{{{\color{numb}8}}}{1}
+         {9}{{{\color{numb}9}}}{1}
 }
-
-\usepackage{stfloats}
-

@@ -1,33 +1,86 @@
-\newcommand{\thetitle}{Descriptive Title Featuring a PUN \\ and Forced Acronym}
-\newcommand{\pdftitle}{Descriptive Title Featuring a PUN and Forced Acronym}
-\newcommand{\pdfauthors}{Robert J. Walls, Bro Magnum} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Main LaTeX Source %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% set to 0 for "publication"
-\newcount\draft\draft=1 
+%%%%%% Document Setup %%%%%%
 
-% auto hyphenate a long system name 
-\newcommand{\sysname}{\textsc{System\-Name\-That\-Pun}\xspace}
-
+% Formatting
+\documentclass[12pt]{article}
 \input{preamble}
+
+% PDF Name
+\newcommand{\pdftitle}{SHEILA: An Information-Theoretic Tool for Hardware Side-Channel Leakage Assessment}
+
+% Custom Report Names
+\newcommand{\sysnamelong}{Sensitive HardwarE Information Leakage Analyzer}
+\newcommand{\sysname}{\textsc{sheila}}
+
+%%%%%% Start Document %%%%%%
 
 \begin{document}
 
-\title{\Large \bf \thetitle}
 
-\author{
-{\rm Robert  J. Walls}\\
-Worcester Polytechnic Institute
-\and
-{\rm Bro Magnum}\\
-Fake Academy of Science
-}  
+%%%%%% Front Matter %%%%%%
 
+% Title Page
+\input{title}
+\newpage
 
-\maketitle
-
+% Abstract -- Start small roman numeral numbering
+\pagenumbering{roman}
 \input{abstract}
-\input{intro}
+\newpage
 
-\bibliographystyle{plain}
+% Single space & smaller list font
+\begin{singlespacing}
+\begin{small}
+
+% Table of Contents
+\tableofcontents\newpage
+
+% List of Figures
+\addcontentsline{toc}{section}{List of Figures}
+\listoffigures
+\newpage
+
+% List of Tables
+\addcontentsline{toc}{section}{List of Tables}
+\listoftables
+\newpage
+
+% Return to 1.5 space and normalsize font
+\end{small}
+\end{singlespacing}
+
+% Start arabic numbering
+\pagenumbering{arabic}
+
+
+%%%%%% Main Content %%%%%%
+
+\input{introduction}
+\newpage
+
+
+
+%%%%%% Bibliography %%%%%%
+
+\begin{singlespacing}
+\newpage
+\bibliographystyle{./IEEEtran}
 \bibliography{../bib/bib}
+\end{singlespacing}
+
+%%%%%% Appendices %%%%%%
+
+\newpage
+\begin{appendices}
+
+% \input{apdx-method}
+
+\end{appendices}
+
+
+%%%%%% End Document %%%%%%
+
 \end{document}
